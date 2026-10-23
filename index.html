@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHAIBIA W KABOUR</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ffe0f0, #ffc6dc, #fce7f3);
+      color: #8b2457;
+    }
+
+    .card {
+      width: 90%;
+      max-width: 440px;
+      padding: 30px 20px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.85);
+      border: 2px solid white;
+      border-radius: 28px;
+      box-shadow: 0 15px 40px #d95b8b30;
+      position: relative;
+      z-index: 2;
+    }
+
+    .emoji {
+      font-size: 75px;
+      animation: bounce 1.5s infinite;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 15px 0;
+    }
+
+    p {
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-top: 30px;
+      min-height: 60px;
+    }
+
+    button {
+      border: none;
+      padding: 14px 25px;
+      border-radius: 30px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    #yes {
+      color: white;
+      background: #ec4899;
+      box-shadow: 0 5px 12px #ec489940;
+    }
+
+    #no {
+      color: #8b2457;
+      background: #fce7f3;
+    }
+
+    #message {
+      display: none;
+      margin-top: 22px;
+      font-size: 21px;
+      font-weight: bold;
+      line-height: 1.8;
+      animation: pop 0.5s;
+    }
+
+    .heart {
+      position: fixed;
+      top: -30px;
+      font-size: 22px;
+      pointer-events: none;
+      animation: fall linear forwards;
+      z-index: 1;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-12px) rotate(5deg); }
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    #surprise {
+      display: none;
+      margin-top: 18px;
+      padding: 15px;
+      border-radius: 18px;
+      background: #fff0f7;
+    }
+
+    #surprise button {
+      margin-top: 10px;
+      background: #8b2457;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="card">
+    <div class="emoji" id="face">😠</div>
+
+    <h1>WACH T9DRI DARBINI !!</h1>
+
+    <p id="question">
+     -3ARFAK GHA TGOLI AH AL KHA2INAA
+      <br>
+      -JAWBI BI SARAHA 
+    </p>
+
+    <div class="buttons" id="buttons">
+      <button id="yes">LA</button>
+      <button id="no">AH</button>
+    </div>
+
+    <div id="message"></div>
+
+    <div id="surprise">
+      <p>
+    
+        <br>
+        ollah matbqa fek 😠
+      </p>
+      <button onclick="extraSurprise()">
+        BARKI HNA 😠 
+      </button>
+      <p id="extra"></p>
+    </div>
+  </main>
+
+  <script>
+    const yes = document.getElementById("yes");
+    const no = document.getElementById("no");
+    const face = document.getElementById("face");
+    const message = document.getElementById("message");
+    const question = document.getElementById("question");
+    const buttons = document.getElementById("buttons");
+    const surprise = document.getElementById("surprise");
+
+    let noCount = 0;
+
+    function moveNo() {
+      noCount++;
+
+      if (noCount >= 5) {
+        no.textContent = "chaibia siri fhalk";
+      } else {
+        no.textContent = [
+          "لا 😂",
+          "wa ti ray7i ",
+          "yahdik llah ",
+          "gha ndrbak",
+          "wa l3aaaaaaaar"
+        ][noCount];
+      }
+
+      // كنخليو الزر يهرب لمكان آخر فالشاشة
+      no.style.position = "fixed";
+
+      const maxX = window.innerWidth - no.offsetWidth - 10;
+      const maxY = window.innerHeight - no.offsetHeight - 10;
+
+      no.style.left = Math.max(5, Math.random() * maxX) + "px";
+      no.style.top = Math.max(5, Math.random() * maxY) + "px";
+    }
+
+    no.addEventListener("pointerenter", moveNo);
+
+    no.addEventListener("click", () => {
+      moveNo();
+    });
+
+    yes.addEventListener("click", () => {
+      face.textContent = "🤣💖";
+      question.textContent = "db mzyaaan";
+      buttons.style.display = "none";
+      message.style.display = "block";
+      message.textContent = "AKBAR KHA2INA EALA WJH L ARD 😠";
+      surprise.style.display = "block";
+
+      for (let i = 0; i < 35; i++) {
+        setTimeout(makeHeart, i * 80);
+      }
+    });
+
+    function makeHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = ["💕", "💖", "💗", "😂", "❤️"][
+        Math.floor(Math.random() * 5)
+      ];
+
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (2 + Math.random() * 3) + "s";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 5000);
+    }
+
+    function extraSurprise() {
+      document.getElementById("extra").textContent =
+        "SAFE MOSAMI7 KARIM ☺️";
+    }
+  </script>
+
+</body>
+</html>
